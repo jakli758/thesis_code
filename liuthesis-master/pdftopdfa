@@ -1,0 +1,19 @@
+#! /usr/bin/env bash
+filenames=${@%.pdf}
+#### Use sRGB for now, proper color profile handling likely first in latex-3
+#  -sColorConversionStrategy=UseDeviceIndependentColor 
+for filename in ${filenames[@]}; do
+  echo Converting ${filename}.pdf
+  gs -dPDFA -dBATCH -dNOPAUSE              \
+    -sColorConversionStrategy=RGB          \
+    -sDEVICE=pdfwrite                      \
+    -dPDFACompatibilityPolicy=3            \
+    -sOutputFile=${filename}_pdfa_rgb.pdf  \
+     ${filename}.pdf
+  gs -dPDFA -dBATCH -dNOPAUSE              \
+    -sColorConversionStrategy=CMYK         \
+    -sDEVICE=pdfwrite                      \
+    -dPDFACompatibilityPolicy=3            \
+    -sOutputFile=${filename}_pdfa_cmyk.pdf \
+     ${filename}.pdf
+done

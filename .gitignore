@@ -1,3 +1,12 @@
+# Latex
+
+liuthesis-master/demo/*
+liuthesis-master/papers/*   
+liuthesis-master/demo_*
+
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
