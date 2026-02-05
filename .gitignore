@@ -2,6 +2,8 @@
 data/*
 berzelius_code/data/*
 
+# berzelius logging
+slurm-*.out
 
 # Latex
 

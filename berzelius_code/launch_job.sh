@@ -19,4 +19,4 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/proj/afraid/users/x_jakli/thesis312/lib
 
 torchrun --standalone --nproc_per_node=2 train_multigpu.py 50 10
 
-cp -r /scratch/local/thesis_code/$dir_name/results/* /proj/afraid/users/x_jakli/thesis_code/$dir_name/results/$run_name/
+cp -r /scratch/local/$dir_name/results/* /proj/afraid/users/x_jakli/thesis_code/berzelius_results/$run_name/
