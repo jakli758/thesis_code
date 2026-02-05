@@ -73,6 +73,7 @@ class Trainer:
             self._run_epoch(epoch)
             if self.gpu_id == 0 and epoch % self.save_every == 0:
                 self._save_snapshot(epoch)
+        self._save_snapshot("Final epoch")
 
 
 def load_train_objs():
