@@ -4,9 +4,12 @@
 #SBATCH -t 3-00:00:00
 #SBATCH -N 1
 
-cp -r /proj/afraid/users/x_jakli/data/accepted_preprocessed_128 /scratch/local
+run_name="test_run"
+dir_name="berzelius_code"
 
-cd /scratch/local/accepted_preprocessed_128
+cp -r /proj/afraid/users/x_jakli/thesis_code/$dir_name /scratch/local
+
+cd /scratch/local/$dir_name
 
 module load Miniforge3/24.7.1-2-hpc1-bdist
 
@@ -16,4 +19,4 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/proj/afraid/users/x_jakli/thesis312/lib
 
 torchrun --standalone --nproc_per_node=2 train_multigpu.py 50 10
 
-cp -r /scratch/local/accepted_preprocessed_128/results/* /proj/afraid/users/x_jakli/accepted_preprocessed_128/results/test_run/
+cp -r /scratch/local/thesis_code/$dir_name/results/* /proj/afraid/users/x_jakli/thesis_code/$dir_name/results/$run_name/
