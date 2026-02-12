@@ -1,4 +1,3 @@
-name: pytorch-img2img
 channels:
   - pytorch
   - conda-forge
