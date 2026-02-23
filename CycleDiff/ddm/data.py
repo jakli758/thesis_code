@@ -2085,7 +2085,7 @@ class Single_dataset(data.Dataset):
         self.normalize_to_neg_one_to_one = normalize_to_neg_one_to_one
         self.transform = Compose([
             Resize(image_size),
-            T.RandomCrop((256, 256)),
+            T.RandomCrop(tuple(image_size)),
             RandomHorizontalFlip() if augment_horizontal_flip else Identity(),
             # ToTensor()
         ])

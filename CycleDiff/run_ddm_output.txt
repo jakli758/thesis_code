@@ -1,0 +1,219 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+/local/data1/jakli758/thesis_code/CycleDiff/ddm/ddm_const_ode_2.py:830: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  def forward(ctx, input_tensor, gt_grad):
+/local/data1/jakli758/thesis_code/CycleDiff/ddm/ddm_const_ode_2.py:837: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  def backward(ctx, grad_scale):
+Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+data:
+  augment_horizontal_flip: True
+  batch_size: 32
+  class_name: ddm.data.Single_dataset
+  data_root: /local/data2/jakli758/dm/128
+  datafolder_name: CONTROL
+  image_size: [128, 128]
+  num_workers: 1
+  split: train
+model:
+  ckpt_path: None
+  class_name: ddm.ddm_const_ode_2.LatentDiffusion
+  default_scale: True
+  eps: 0.001
+  first_stage:
+    ckpt_path: /local/data1/jakli758/thesis_code/CycleDiff/checkpoints/results_ae_CONTROL_128x128/model-10.pt
+    class_name: ddm.encoder_decoder.AutoencoderKL
+    ddconfig:
+      attn_resolutions: []
+      ch: 128
+      ch_mult: [1, 2, 4]
+      double_z: True
+      dropout: 0.0
+      in_channels: 3
+      num_res_blocks: 2
+      out_ch: 3
+      resolution: [128, 128]
+      z_channels: 3
+    embed_dim: 3
+    lossconfig:
+      disc_start: 20001
+      disc_weight: 0.5
+      kl_weight: 1e-06
+  ignore_keys: []
+  image_size: [128, 128]
+  ldm: True
+  loss_type: l2
+  only_model: False
+  perceptual_weight: 1
+  sampling_timesteps: 10
+  scale_by_softsign: False
+  scale_by_std: True
+  scale_factor: 0.165
+  sigma_max: 1
+  sigma_min: 0.001
+  start_dist: normal
+  unet:
+    attn_resolutions: [16, 8]
+    augment_dim: 0
+    channel_mult: [1, 2, 2, 2]
+    channel_mult_emb: 4
+    class_name: unet.uncond_unet_sd_2.EDMPrecond
+    dropout: 0.1
+    img_channels: 3
+    img_resolution: 64
+    label_dropout: 0
+    model_channels: 128
+    model_type: DhariwalUNet
+    num_blocks: 3
+    sigma_data: 1.0
+  use_augment: False
+  use_disloss: False
+  use_l1: False
+  weighting_loss: True
+trainer:
+  amp: False
+  ema_update_after_step: 20000
+  ema_update_every: 8
+  fp16: False
+  gradient_accumulate_every: 2
+  log_freq: 500
+  lr: 0.0001
+  min_lr: 1e-05
+  results_folder: /local/data1/jakli758/thesis_code/CycleDiff/checkpoints/results_ddm_CONTROL_128x128
+  resume_milestone: 8
+  save_and_sample_every: 10000
+  test_before: True
+  train_num_steps: 400000
+making attention of type 'vanilla' with 512 in_channels
+Working with z of shape (1, 3, 32, 32) = 3072 dimensions.
+making attention of type 'vanilla' with 512 in_channels
+loaded pretrained LPIPS loss from taming/modules/autoencoder/lpips/vgg.pth
+Restored from /local/data1/jakli758/thesis_code/CycleDiff/checkpoints/results_ae_CONTROL_128x128/model-10.pt
+==>Load AutoEncoder Info:  <All keys matched successfully>
+#### WEIGHTING LOSS ####
+loaded pretrained LPIPS loss from taming/modules/autoencoder/lpips/vgg.pth
+  0%|          | 0/400000 [00:00<?, ?it/s][Train Step] 0/400000: loss_simple: 4.73107, loss_vlb: 14.56938, total_loss: 90945.19531, lr: 0.00000, 
+[Train Step] 0/400000: loss_simple: 4.73107, loss_vlb: 14.56938, total_loss: 90945.19531, lr: 0.00000, :   0%|          | 1/400000 [00:00<77:06:00,  1.44it/s][Train Step] 1/400000: loss_simple: 4.76237, loss_vlb: 15.02840, total_loss: 90007.24805, lr: 0.00000, :   0%|          | 2/400000 [00:00<49:44:29,  2.23it/s][Train Step] 2/400000: loss_simple: 4.88190, loss_vlb: 15.04132, total_loss: 91350.21289, lr: 0.00000, :   0%|          | 3/400000 [00:01<40:42:41,  2.73it/s][Train Step] 3/400000: loss_simple: 5.17020, loss_vlb: 12.66328, total_loss: 82186.04688, lr: 0.00000, :   0%|          | 4/400000 [00:01<36:22:36,  3.05it/s][Train Step] 4/400000: loss_simple: 4.89503, loss_vlb: 13.01153, total_loss: 83472.69922, lr: 0.00000, :   0%|          | 5/400000 [00:01<34:02:40,  3.26it/s][Train Step] 5/400000: loss_simple: 5.19871, loss_vlb: 13.38386, total_loss: 84752.00977, lr: 0.00000, :   0%|          | 6/400000 [00:02<32:36:59,  3.41it/s][Train Step] 6/400000: loss_simple: 5.17693, loss_vlb: 15.76197, total_loss: 94237.39062, lr: 0.00000, :   0%|          | 7/400000 [00:02<31:44:30,  3.50it/s][Train Step] 7/400000: loss_simple: 4.60938, loss_vlb: 13.45161, total_loss: 84957.85547, lr: 0.00000, :   0%|          | 8/400000 [00:02<31:14:04,  3.56it/s][Train Step] 8/400000: loss_simple: 4.92717, loss_vlb: 13.74435, total_loss: 85902.92969, lr: 0.00000, :   0%|          | 9/400000 [00:02<31:14:57,  3.56it/s][Train Step] 9/400000: loss_simple: 5.39387, loss_vlb: 15.16655, total_loss: 97650.15430, lr: 0.00000, :   0%|          | 10/400000 [00:03<30:47:07,  3.61it/s][Train Step] 10/400000: loss_simple: 5.17482, loss_vlb: 15.34441, total_loss: 92326.88672, lr: 0.00000, :   0%|          | 11/400000 [00:03<30:29:05,  3.64it/s][Train Step] 11/400000: loss_simple: 4.78579, loss_vlb: 15.57806, total_loss: 92527.95312, lr: 0.00000, :   0%|          | 12/400000 [00:03<30:16:53,  3.67it/s][Train Step] 12/400000: loss_simple: 5.10460, loss_vlb: 13.08586, total_loss: 83602.85547, lr: 0.00000, :   0%|          | 13/400000 [00:03<30:12:34,  3.68it/s][Train Step] 13/400000: loss_simple: 5.06323, loss_vlb: 12.88581, total_loss: 81421.02148, lr: 0.00000, :   0%|          | 14/400000 [00:04<30:06:30,  3.69it/s][Train Step] 14/400000: loss_simple: 5.01979, loss_vlb: 12.99184, total_loss: 84242.01953, lr: 0.00000, :   0%|          | 15/400000 [00:04<29:59:47,  3.70it/s][Train Step] 15/400000: loss_simple: 5.21963, loss_vlb: 13.83483, total_loss: 89173.30273, lr: 0.00000, :   0%|          | 16/400000 [00:04<29:57:26,  3.71it/s][Train Step] 16/400000: loss_simple: 4.87563, loss_vlb: 14.57324, total_loss: 91966.92383, lr: 0.00000, :   0%|          | 17/400000 [00:05<30:16:08,  3.67it/s][Train Step] 17/400000: loss_simple: 4.77739, loss_vlb: 14.95005, total_loss: 90398.25391, lr: 0.00000, :   0%|          | 18/400000 [00:05<30:08:03,  3.69it/s][Train Step] 18/400000: loss_simple: 4.58756, loss_vlb: 14.48124, total_loss: 89937.91406, lr: 0.00000, :   0%|          | 19/400000 [00:05<30:03:43,  3.70it/s][Train Step] 19/400000: loss_simple: 4.57129, loss_vlb: 15.63672, total_loss: 93712.26367, lr: 0.00000, :   0%|          | 20/400000 [00:05<29:59:11,  3.71it/s][Train Step] 20/400000: loss_simple: 5.27440, loss_vlb: 14.20153, total_loss: 88727.13477, lr: 0.00000, :   0%|          | 21/400000 [00:06<29:55:50,  3.71it/s][Train Step] 21/400000: loss_simple: 4.95573, loss_vlb: 14.55412, total_loss: 88038.97266, lr: 0.00000, :   0%|          | 22/400000 [00:06<29:53:52,  3.72it/s][Train Step] 22/400000: loss_simple: 4.68298, loss_vlb: 14.03161, total_loss: 87910.12891, lr: 0.00000, :   0%|          | 23/400000 [00:06<29:52:53,  3.72it/s][Train Step] 23/400000: loss_simple: 5.08447, loss_vlb: 14.46205, total_loss: 88427.27539, lr: 0.00000, :   0%|          | 24/400000 [00:06<29:52:46,  3.72it/s][Train Step] 24/400000: loss_simple: 4.83923, loss_vlb: 15.52811, total_loss: 98273.41406, lr: 0.00000, :   0%|          | 25/400000 [00:07<30:22:22,  3.66it/s][Train Step] 25/400000: loss_simple: 4.95764, loss_vlb: 14.04305, total_loss: 85898.66797, lr: 0.00000, :   0%|          | 26/400000 [00:07<30:21:46,  3.66it/s][Train Step] 26/400000: loss_simple: 4.99306, loss_vlb: 13.63615, total_loss: 88195.66406, lr: 0.00000, :   0%|          | 27/400000 [00:07<30:11:42,  3.68it/s][Train Step] 27/400000: loss_simple: 4.81938, loss_vlb: 12.76519, total_loss: 80986.27148, lr: 0.00000, :   0%|          | 28/400000 [00:07<30:02:21,  3.70it/s][Train Step] 28/400000: loss_simple: 5.26023, loss_vlb: 12.90971, total_loss: 81395.71484, lr: 0.00000, :   0%|          | 29/400000 [00:08<29:55:14,  3.71it/s][Train Step] 29/400000: loss_simple: 4.88633, loss_vlb: 13.61352, total_loss: 86653.65234, lr: 0.00000, :   0%|          | 30/400000 [00:08<29:49:08,  3.73it/s][Train Step] 30/400000: loss_simple: 4.93665, loss_vlb: 13.26428, total_loss: 85298.00000, lr: 0.00000, :   0%|          | 31/400000 [00:08<29:45:58,  3.73it/s][Train Step] 31/400000: loss_simple: 4.56048, loss_vlb: 14.66813, total_loss: 89476.62305, lr: 0.00000, :   0%|          | 32/400000 [00:09<29:46:06,  3.73it/s][Train Step] 32/400000: loss_simple: 4.87354, loss_vlb: 14.02687, total_loss: 86552.86133, lr: 0.00000, :   0%|          | 33/400000 [00:09<30:26:27,  3.65it/s][Train Step] 33/400000: loss_simple: 5.03730, loss_vlb: 13.31650, total_loss: 84781.48828, lr: 0.00000, :   0%|          | 34/400000 [00:09<30:15:38,  3.67it/s][Train Step] 34/400000: loss_simple: 4.63363, loss_vlb: 15.44788, total_loss: 93688.62891, lr: 0.00000, :   0%|          | 35/400000 [00:09<30:13:05,  3.68it/s][Train Step] 35/400000: loss_simple: 4.89230, loss_vlb: 13.14564, total_loss: 82453.64844, lr: 0.00000, :   0%|          | 36/400000 [00:10<30:24:08,  3.65it/s][Train Step] 36/400000: loss_simple: 4.40759, loss_vlb: 12.34094, total_loss: 79184.92383, lr: 0.00000, :   0%|          | 37/400000 [00:10<30:23:49,  3.65it/s][Train Step] 37/400000: loss_simple: 4.29721, loss_vlb: 13.00431, total_loss: 78927.29492, lr: 0.00000, :   0%|          | 38/400000 [00:10<30:24:44,  3.65it/s][Train Step] 38/400000: loss_simple: 4.85905, loss_vlb: 15.71518, total_loss: 94284.41406, lr: 0.00000, :   0%|          | 39/400000 [00:10<30:24:45,  3.65it/s][Train Step] 39/400000: loss_simple: 4.67413, loss_vlb: 14.20912, total_loss: 87227.96289, lr: 0.00000, :   0%|          | 40/400000 [00:11<30:24:39,  3.65it/s][Train Step] 40/400000: loss_simple: 4.61949, loss_vlb: 12.95003, total_loss: 80588.00781, lr: 0.00000, :   0%|          | 41/400000 [00:11<30:35:11,  3.63it/s][Train Step] 41/400000: loss_simple: 4.67393, loss_vlb: 13.43505, total_loss: 82898.43164, lr: 0.00000, :   0%|          | 42/400000 [00:11<30:25:12,  3.65it/s][Train Step] 42/400000: loss_simple: 4.84866, loss_vlb: 14.34130, total_loss: 89404.71875, lr: 0.00000, :   0%|          | 43/400000 [00:12<30:04:53,  3.69it/s]### USING DEFAULT SCALE 0.16500000655651093
+[Train Step] 43/400000: loss_simple: 4.70408, loss_vlb: 13.95828, total_loss: 86359.16016, lr: 0.00000, :   0%|          | 44/400000 [00:12<36:31:39,  3.04it/s][Train Step] 44/400000: loss_simple: 4.51270, loss_vlb: 13.23245, total_loss: 82927.51758, lr: 0.00000, :   0%|          | 45/400000 [00:12<34:36:44,  3.21it/s][Train Step] 45/400000: loss_simple: 4.61538, loss_vlb: 13.94468, total_loss: 86565.86133, lr: 0.00000, :   0%|          | 46/400000 [00:13<33:15:19,  3.34it/s][Train Step] 46/400000: loss_simple: 4.74444, loss_vlb: 15.17489, total_loss: 90566.33008, lr: 0.00000, :   0%|          | 47/400000 [00:13<32:15:06,  3.44it/s][Train Step] 47/400000: loss_simple: 4.62438, loss_vlb: 13.49002, total_loss: 84291.82422, lr: 0.00000, :   0%|          | 48/400000 [00:13<31:32:03,  3.52it/s][Train Step] 48/400000: loss_simple: 4.45404, loss_vlb: 12.88440, total_loss: 78985.72656, lr: 0.00000, :   0%|          | 49/400000 [00:13<31:23:32,  3.54it/s][Train Step] 49/400000: loss_simple: 4.44111, loss_vlb: 11.80215, total_loss: 75888.70508, lr: 0.00000, :   0%|          | 50/400000 [00:14<30:55:38,  3.59it/s][Train Step] 50/400000: loss_simple: 4.64427, loss_vlb: 12.33977, total_loss: 76695.20898, lr: 0.00000, :   0%|          | 51/400000 [00:14<30:37:27,  3.63it/s][Train Step] 51/400000: loss_simple: 4.38384, loss_vlb: 13.42246, total_loss: 81236.10938, lr: 0.00000, :   0%|          | 52/400000 [00:14<30:24:52,  3.65it/s][Train Step] 52/400000: loss_simple: 4.29722, loss_vlb: 13.01424, total_loss: 80720.24219, lr: 0.00000, :   0%|          | 53/400000 [00:14<30:12:43,  3.68it/s][Train Step] 53/400000: loss_simple: 4.37812, loss_vlb: 14.14061, total_loss: 87968.57812, lr: 0.00000, :   0%|          | 54/400000 [00:15<30:07:17,  3.69it/s][Train Step] 54/400000: loss_simple: 4.47894, loss_vlb: 12.58628, total_loss: 78924.42969, lr: 0.00000, :   0%|          | 55/400000 [00:15<30:00:20,  3.70it/s][Train Step] 55/400000: loss_simple: 4.37864, loss_vlb: 13.82505, total_loss: 84740.23438, lr: 0.00000, :   0%|          | 56/400000 [00:15<30:05:51,  3.69it/s][Train Step] 56/400000: loss_simple: 4.15013, loss_vlb: 14.07821, total_loss: 83199.70703, lr: 0.00000, :   0%|          | 57/400000 [00:16<30:25:16,  3.65it/s][Train Step] 57/400000: loss_simple: 4.42859, loss_vlb: 12.69935, total_loss: 79427.08203, lr: 0.00000, :   0%|          | 58/400000 [00:16<30:17:03,  3.67it/s][Train Step] 58/400000: loss_simple: 4.38960, loss_vlb: 12.06163, total_loss: 75990.95703, lr: 0.00000, :   0%|          | 59/400000 [00:16<30:15:07,  3.67it/s][Train Step] 59/400000: loss_simple: 4.08450, loss_vlb: 13.81649, total_loss: 85560.41797, lr: 0.00000, :   0%|          | 60/400000 [00:16<30:08:03,  3.69it/s][Train Step] 60/400000: loss_simple: 4.03206, loss_vlb: 14.88832, total_loss: 90207.07227, lr: 0.00000, :   0%|          | 61/400000 [00:17<30:03:49,  3.70it/s][Train Step] 61/400000: loss_simple: 4.15497, loss_vlb: 13.95901, total_loss: 83218.46680, lr: 0.00000, :   0%|          | 62/400000 [00:17<29:59:51,  3.70it/s][Train Step] 62/400000: loss_simple: 4.30405, loss_vlb: 11.80156, total_loss: 73626.02734, lr: 0.00000, :   0%|          | 63/400000 [00:17<30:01:10,  3.70it/s][Train Step] 63/400000: loss_simple: 4.16603, loss_vlb: 11.63339, total_loss: 74129.83594, lr: 0.00000, :   0%|          | 64/400000 [00:17<30:08:35,  3.69it/s][Train Step] 64/400000: loss_simple: 4.18951, loss_vlb: 11.68864, total_loss: 72623.00781, lr: 0.00000, :   0%|          | 65/400000 [00:18<30:45:30,  3.61it/s][Train Step] 65/400000: loss_simple: 4.04481, loss_vlb: 13.21890, total_loss: 79690.49023, lr: 0.00000, :   0%|          | 66/400000 [00:18<30:52:40,  3.60it/s][Train Step] 66/400000: loss_simple: 4.27945, loss_vlb: 13.07271, total_loss: 78779.83789, lr: 0.00000, :   0%|          | 67/400000 [00:18<30:59:08,  3.59it/s][Train Step] 67/400000: loss_simple: 4.07888, loss_vlb: 11.75600, total_loss: 72731.75977, lr: 0.00000, :   0%|          | 68/400000 [00:19<30:56:18,  3.59it/s][Train Step] 68/400000: loss_simple: 4.08184, loss_vlb: 12.63148, total_loss: 77172.18164, lr: 0.00000, :   0%|          | 69/400000 [00:19<30:51:41,  3.60it/s][Train Step] 69/400000: loss_simple: 3.88095, loss_vlb: 12.71611, total_loss: 76054.25391, lr: 0.00000, :   0%|          | 70/400000 [00:19<30:52:23,  3.60it/s][Train Step] 70/400000: loss_simple: 3.75785, loss_vlb: 11.87365, total_loss: 72023.70703, lr: 0.00000, :   0%|          | 71/400000 [00:19<30:55:52,  3.59it/s][Train Step] 71/400000: loss_simple: 3.93290, loss_vlb: 12.39197, total_loss: 75540.03516, lr: 0.00000, :   0%|          | 72/400000 [00:20<30:56:26,  3.59it/s][Train Step] 72/400000: loss_simple: 3.99547, loss_vlb: 11.11447, total_loss: 68324.19531, lr: 0.00000, :   0%|          | 73/400000 [00:20<31:24:09,  3.54it/s][Train Step] 73/400000: loss_simple: 4.11509, loss_vlb: 10.21291, total_loss: 65158.66016, lr: 0.00000, :   0%|          | 74/400000 [00:20<31:20:47,  3.54it/s][Train Step] 74/400000: loss_simple: 3.82512, loss_vlb: 11.34071, total_loss: 69374.69141, lr: 0.00000, :   0%|          | 75/400000 [00:21<31:13:23,  3.56it/s][Train Step] 75/400000: loss_simple: 3.64312, loss_vlb: 12.08208, total_loss: 72367.52734, lr: 0.00000, :   0%|          | 76/400000 [00:21<31:01:10,  3.58it/s][Train Step] 76/400000: loss_simple: 3.84016, loss_vlb: 10.90595, total_loss: 68068.04102, lr: 0.00000, :   0%|          | 77/400000 [00:21<30:50:50,  3.60it/s][Train Step] 77/400000: loss_simple: 3.88914, loss_vlb: 12.01935, total_loss: 68700.59766, lr: 0.00000, :   0%|          | 78/400000 [00:21<30:44:26,  3.61it/s][Train Step] 78/400000: loss_simple: 3.72912, loss_vlb: 10.96552, total_loss: 66466.91797, lr: 0.00000, :   0%|          | 79/400000 [00:22<30:45:27,  3.61it/s][Train Step] 79/400000: loss_simple: 3.95940, loss_vlb: 10.94367, total_loss: 69406.43945, lr: 0.00000, :   0%|          | 80/400000 [00:22<30:56:00,  3.59it/s][Train Step] 80/400000: loss_simple: 3.57153, loss_vlb: 10.48670, total_loss: 65643.32227, lr: 0.00000, :   0%|          | 81/400000 [00:22<31:17:56,  3.55it/s][Train Step] 81/400000: loss_simple: 3.58430, loss_vlb: 11.38129, total_loss: 68210.60156, lr: 0.00000, :   0%|          | 82/400000 [00:23<31:10:56,  3.56it/s][Train Step] 82/400000: loss_simple: 3.62150, loss_vlb: 11.37944, total_loss: 70006.87695, lr: 0.00000, :   0%|          | 83/400000 [00:23<31:09:28,  3.57it/s][Train Step] 83/400000: loss_simple: 3.69857, loss_vlb: 10.23086, total_loss: 65598.22656, lr: 0.00000, :   0%|          | 84/400000 [00:23<31:08:31,  3.57it/s][Train Step] 84/400000: loss_simple: 3.50869, loss_vlb: 11.26696, total_loss: 67899.61328, lr: 0.00000, :   0%|          | 85/400000 [00:23<31:08:02,  3.57it/s][Train Step] 85/400000: loss_simple: 3.38666, loss_vlb: 11.47730, total_loss: 69450.14453, lr: 0.00000, :   0%|          | 86/400000 [00:24<30:48:00,  3.61it/s][Train Step] 86/400000: loss_simple: 3.38950, loss_vlb: 10.79166, total_loss: 66815.48047, lr: 0.00000, :   0%|          | 87/400000 [00:24<31:41:10,  3.51it/s][Train Step] 87/400000: loss_simple: 3.23314, loss_vlb: 11.55857, total_loss: 69408.83984, lr: 0.00000, :   0%|          | 88/400000 [00:24<35:15:44,  3.15it/s][Train Step] 88/400000: loss_simple: 3.34866, loss_vlb: 11.15542, total_loss: 68178.90039, lr: 0.00000, :   0%|          | 89/400000 [00:25<34:09:45,  3.25it/s][Train Step] 89/400000: loss_simple: 3.34440, loss_vlb: 10.49281, total_loss: 64744.64453, lr: 0.00000, :   0%|          | 90/400000 [00:25<33:10:04,  3.35it/s][Train Step] 90/400000: loss_simple: 3.34684, loss_vlb: 10.26052, total_loss: 61902.78516, lr: 0.00000, :   0%|          | 91/400000 [00:25<32:29:46,  3.42it/s][Train Step] 91/400000: loss_simple: 3.33156, loss_vlb: 11.13920, total_loss: 67448.76953, lr: 0.00000, :   0%|          | 92/400000 [00:25<31:53:21,  3.48it/s][Train Step] 92/400000: loss_simple: 3.01037, loss_vlb: 10.62436, total_loss: 62450.73047, lr: 0.00000, :   0%|          | 93/400000 [00:26<31:33:33,  3.52it/s][Train Step] 93/400000: loss_simple: 3.02452, loss_vlb: 11.38413, total_loss: 66152.56445, lr: 0.00000, :   0%|          | 94/400000 [00:26<31:11:49,  3.56it/s][Train Step] 94/400000: loss_simple: 2.97418, loss_vlb: 10.77349, total_loss: 63277.02930, lr: 0.00000, :   0%|          | 95/400000 [00:26<30:55:07,  3.59it/s][Train Step] 95/400000: loss_simple: 3.09363, loss_vlb: 9.45775, total_loss: 58741.12891, lr: 0.00000, :   0%|          | 96/400000 [00:27<30:54:47,  3.59it/s] [Train Step] 96/400000: loss_simple: 3.25684, loss_vlb: 11.96618, total_loss: 67164.16406, lr: 0.00000, :   0%|          | 97/400000 [00:27<31:16:58,  3.55it/s][Train Step] 97/400000: loss_simple: 2.91047, loss_vlb: 10.15726, total_loss: 60208.66602, lr: 0.00000, :   0%|          | 98/400000 [00:27<31:52:11,  3.49it/s][Train Step] 98/400000: loss_simple: 2.94310, loss_vlb: 9.96166, total_loss: 61088.59570, lr: 0.00000, :   0%|          | 99/400000 [00:28<36:49:11,  3.02it/s] [Train Step] 99/400000: loss_simple: 2.95395, loss_vlb: 11.57886, total_loss: 67678.73438, lr: 0.00000, :   0%|          | 100/400000 [00:28<39:52:34,  2.79it/s][Train Step] 100/400000: loss_simple: 2.94391, loss_vlb: 9.65885, total_loss: 58087.08008, lr: 0.00000, :   0%|          | 101/400000 [00:28<42:10:15,  2.63it/s][Train Step] 101/400000: loss_simple: 2.81460, loss_vlb: 10.58809, total_loss: 61941.51172, lr: 0.00000, :   0%|          | 102/400000 [00:29<43:51:04,  2.53it/s][Train Step] 102/400000: loss_simple: 2.76768, loss_vlb: 10.02248, total_loss: 57870.82812, lr: 0.00000, :   0%|          | 103/400000 [00:29<45:07:14,  2.46it/s][Train Step] 103/400000: loss_simple: 2.75634, loss_vlb: 10.71024, total_loss: 62992.00781, lr: 0.00000, :   0%|          | 104/400000 [00:30<45:52:08,  2.42it/s][Train Step] 104/400000: loss_simple: 2.69094, loss_vlb: 8.97957, total_loss: 53352.99023, lr: 0.00000, :   0%|          | 105/400000 [00:30<47:03:19,  2.36it/s] [Train Step] 105/400000: loss_simple: 2.85884, loss_vlb: 10.82033, total_loss: 61216.62891, lr: 0.00000, :   0%|          | 106/400000 [00:31<47:27:58,  2.34it/s][Train Step] 106/400000: loss_simple: 2.75798, loss_vlb: 9.43717, total_loss: 57248.32422, lr: 0.00000, :   0%|          | 107/400000 [00:31<47:20:42,  2.35it/s] [Train Step] 107/400000: loss_simple: 2.63964, loss_vlb: 9.65873, total_loss: 57304.87500, lr: 0.00000, :   0%|          | 108/400000 [00:31<47:26:42,  2.34it/s][Train Step] 108/400000: loss_simple: 2.61255, loss_vlb: 8.59171, total_loss: 51806.67773, lr: 0.00000, :   0%|          | 109/400000 [00:32<47:26:45,  2.34it/s][Train Step] 109/400000: loss_simple: 2.52427, loss_vlb: 8.92581, total_loss: 52046.46484, lr: 0.00000, :   0%|          | 110/400000 [00:32<47:18:42,  2.35it/s][Train Step] 110/400000: loss_simple: 2.64204, loss_vlb: 9.05761, total_loss: 53631.04102, lr: 0.00000, :   0%|          | 111/400000 [00:33<47:24:22,  2.34it/s][Train Step] 111/400000: loss_simple: 2.55211, loss_vlb: 9.09925, total_loss: 52348.75586, lr: 0.00000, :   0%|          | 112/400000 [00:33<47:25:33,  2.34it/s][Train Step] 112/400000: loss_simple: 2.54311, loss_vlb: 7.31698, total_loss: 47592.45215, lr: 0.00000, :   0%|          | 113/400000 [00:34<47:47:56,  2.32it/s][Train Step] 113/400000: loss_simple: 2.37680, loss_vlb: 7.40222, total_loss: 44819.24707, lr: 0.00000, :   0%|          | 114/400000 [00:34<47:47:11,  2.32it/s][Train Step] 114/400000: loss_simple: 2.39370, loss_vlb: 8.68061, total_loss: 51857.30762, lr: 0.00000, :   0%|          | 115/400000 [00:34<47:45:31,  2.33it/s][Train Step] 115/400000: loss_simple: 2.33268, loss_vlb: 8.04416, total_loss: 47715.96973, lr: 0.00000, :   0%|          | 116/400000 [00:35<47:44:04,  2.33it/s][Train Step] 116/400000: loss_simple: 2.38736, loss_vlb: 9.51885, total_loss: 57195.45898, lr: 0.00000, :   0%|          | 117/400000 [00:35<47:48:21,  2.32it/s][Train Step] 117/400000: loss_simple: 2.33580, loss_vlb: 8.49363, total_loss: 48264.44531, lr: 0.00000, :   0%|          | 118/400000 [00:36<47:32:30,  2.34it/s][Train Step] 118/400000: loss_simple: 2.31886, loss_vlb: 8.65859, total_loss: 49819.71094, lr: 0.00000, :   0%|          | 119/400000 [00:36<47:35:44,  2.33it/s][Train Step] 119/400000: loss_simple: 2.27200, loss_vlb: 7.67129, total_loss: 46851.68945, lr: 0.00000, :   0%|          | 120/400000 [00:37<47:29:57,  2.34it/s][Train Step] 120/400000: loss_simple: 2.36583, loss_vlb: 8.53100, total_loss: 50788.90625, lr: 0.00000, :   0%|          | 121/400000 [00:37<47:48:22,  2.32it/s][Train Step] 121/400000: loss_simple: 2.25548, loss_vlb: 8.66945, total_loss: 49892.59961, lr: 0.00000, :   0%|          | 122/400000 [00:37<47:37:35,  2.33it/s][Train Step] 122/400000: loss_simple: 2.24834, loss_vlb: 8.27109, total_loss: 48369.30762, lr: 0.00000, :   0%|          | 123/400000 [00:38<47:09:04,  2.36it/s][Train Step] 123/400000: loss_simple: 2.23557, loss_vlb: 8.16873, total_loss: 47488.08398, lr: 0.00000, :   0%|          | 124/400000 [00:38<46:47:22,  2.37it/s][Train Step] 124/400000: loss_simple: 2.22118, loss_vlb: 8.23418, total_loss: 46600.60352, lr: 0.00000, :   0%|          | 125/400000 [00:39<46:46:15,  2.37it/s][Train Step] 125/400000: loss_simple: 2.10531, loss_vlb: 7.50471, total_loss: 42552.34375, lr: 0.00000, :   0%|          | 126/400000 [00:39<46:41:13,  2.38it/s][Train Step] 126/400000: loss_simple: 2.08419, loss_vlb: 7.12004, total_loss: 41505.71973, lr: 0.00000, :   0%|          | 127/400000 [00:40<46:37:30,  2.38it/s][Train Step] 127/400000: loss_simple: 2.09223, loss_vlb: 7.25562, total_loss: 43174.50977, lr: 0.00000, :   0%|          | 128/400000 [00:40<46:39:55,  2.38it/s][Train Step] 128/400000: loss_simple: 2.10965, loss_vlb: 7.13200, total_loss: 41720.59180, lr: 0.00000, :   0%|          | 129/400000 [00:40<46:56:37,  2.37it/s][Train Step] 129/400000: loss_simple: 2.06585, loss_vlb: 7.00992, total_loss: 43164.92480, lr: 0.00000, :   0%|          | 130/400000 [00:41<46:48:16,  2.37it/s][Train Step] 130/400000: loss_simple: 2.07807, loss_vlb: 7.05933, total_loss: 39569.87109, lr: 0.00000, :   0%|          | 131/400000 [00:41<51:27:15,  2.16it/s]Traceback (most recent call last):
+  File "/local/data1/jakli758/venv_cycleDiff/bin/accelerate", line 6, in <module>
+    sys.exit(main())
+  File "/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 47, in main
+    args.func(args)
+  File "/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1017, in launch_command
+    simple_launcher(args)
+  File "/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/accelerate/commands/launch.py", line 637, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/local/data1/jakli758/venv_cycleDiff/bin/python3.10', 'train_uncond_ldm.py', '--cfg', './configs/nff2aff/nff_ddm_128x128.yaml']' died with <Signals.SIGTERM: 15>.
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+/local/data1/jakli758/thesis_code/CycleDiff/ddm/ddm_const_ode_2.py:830: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  def forward(ctx, input_tensor, gt_grad):
+/local/data1/jakli758/thesis_code/CycleDiff/ddm/ddm_const_ode_2.py:837: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  def backward(ctx, grad_scale):
+Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+data:
+  augment_horizontal_flip: True
+  batch_size: 16
+  class_name: ddm.data.Single_dataset
+  data_root: /local/data2/jakli758/dm/128
+  datafolder_name: AFF
+  image_size: [128, 128]
+  num_workers: 1
+  split: train
+model:
+  ckpt_path: None
+  class_name: ddm.ddm_const_ode_2.LatentDiffusion
+  default_scale: True
+  eps: 0.001
+  first_stage:
+    ckpt_path: /local/data1/jakli758/thesis_code/CycleDiff/checkpoints/results_ae_AFF_128x128/model-10.pt
+    class_name: ddm.encoder_decoder.AutoencoderKL
+    ddconfig:
+      attn_resolutions: []
+      ch: 128
+      ch_mult: [1, 2, 4]
+      double_z: True
+      dropout: 0.0
+      in_channels: 3
+      num_res_blocks: 2
+      out_ch: 3
+      resolution: [128, 128]
+      z_channels: 3
+    embed_dim: 3
+    lossconfig:
+      disc_start: 20001
+      disc_weight: 0.5
+      kl_weight: 1e-06
+  ignore_keys: []
+  image_size: [128, 128]
+  ldm: True
+  loss_type: l2
+  only_model: False
+  perceptual_weight: 1
+  sampling_timesteps: 10
+  scale_by_softsign: False
+  scale_by_std: True
+  scale_factor: 0.165
+  sigma_max: 1
+  sigma_min: 0.001
+  start_dist: normal
+  unet:
+    attn_resolutions: [16, 8]
+    augment_dim: 0
+    channel_mult: [1, 2, 2, 2]
+    channel_mult_emb: 4
+    class_name: unet.uncond_unet_sd_2.EDMPrecond
+    dropout: 0.1
+    img_channels: 3
+    img_resolution: 64
+    label_dropout: 0
+    model_channels: 128
+    model_type: DhariwalUNet
+    num_blocks: 3
+    sigma_data: 1.0
+  use_augment: False
+  use_disloss: False
+  use_l1: False
+  weighting_loss: True
+trainer:
+  amp: False
+  ema_update_after_step: 20000
+  ema_update_every: 8
+  fp16: False
+  gradient_accumulate_every: 2
+  log_freq: 500
+  lr: 0.0001
+  min_lr: 1e-05
+  results_folder: /local/data1/jakli758/thesis_code/CycleDiff/checkpoints/results_ddm_AFF_128x128
+  resume_milestone: 10
+  save_and_sample_every: 10000
+  test_before: True
+  train_num_steps: 400000
+making attention of type 'vanilla' with 512 in_channels
+Working with z of shape (1, 3, 32, 32) = 3072 dimensions.
+making attention of type 'vanilla' with 512 in_channels
+loaded pretrained LPIPS loss from taming/modules/autoencoder/lpips/vgg.pth
+Restored from /local/data1/jakli758/thesis_code/CycleDiff/checkpoints/results_ae_AFF_128x128/model-10.pt
+==>Load AutoEncoder Info:  <All keys matched successfully>
+#### WEIGHTING LOSS ####
+loaded pretrained LPIPS loss from taming/modules/autoencoder/lpips/vgg.pth
+  0%|          | 0/400000 [00:00<?, ?it/s][Train Step] 0/400000: loss_simple: 5.15369, loss_vlb: 7.48879, total_loss: 58980.90820, lr: 0.00000, 
+[Train Step] 0/400000: loss_simple: 5.15369, loss_vlb: 7.48879, total_loss: 58980.90820, lr: 0.00000, :   0%|          | 1/400000 [00:01<185:47:51,  1.67s/it][Train Step] 1/400000: loss_simple: 5.03695, loss_vlb: 8.09972, total_loss: 61712.29297, lr: 0.00000, :   0%|          | 2/400000 [00:01<96:59:39,  1.15it/s] [Train Step] 2/400000: loss_simple: 4.96146, loss_vlb: 6.66949, total_loss: 53711.49023, lr: 0.00000, :   0%|          | 3/400000 [00:02<68:27:18,  1.62it/s][Train Step] 3/400000: loss_simple: 5.01253, loss_vlb: 6.72330, total_loss: 52575.77344, lr: 0.00000, :   0%|          | 4/400000 [00:02<54:45:59,  2.03it/s][Train Step] 4/400000: loss_simple: 4.76400, loss_vlb: 6.26288, total_loss: 51317.10156, lr: 0.00000, :   0%|          | 5/400000 [00:02<47:25:37,  2.34it/s][Train Step] 5/400000: loss_simple: 4.83423, loss_vlb: 7.54523, total_loss: 58981.94531, lr: 0.00000, :   0%|          | 6/400000 [00:03<42:12:40,  2.63it/s][Train Step] 6/400000: loss_simple: 4.98175, loss_vlb: 6.56100, total_loss: 55053.20312, lr: 0.00000, :   0%|          | 7/400000 [00:03<39:29:49,  2.81it/s][Train Step] 7/400000: loss_simple: 4.29348, loss_vlb: 7.25261, total_loss: 52441.22266, lr: 0.00000, :   0%|          | 8/400000 [00:03<37:51:08,  2.94it/s][Train Step] 8/400000: loss_simple: 4.55890, loss_vlb: 7.51343, total_loss: 55177.20312, lr: 0.00000, :   0%|          | 9/400000 [00:04<36:41:12,  3.03it/s][Train Step] 9/400000: loss_simple: 5.01081, loss_vlb: 6.07181, total_loss: 51631.06445, lr: 0.00000, :   0%|          | 10/400000 [00:04<35:50:11,  3.10it/s][Train Step] 10/400000: loss_simple: 4.65171, loss_vlb: 7.58105, total_loss: 56098.57031, lr: 0.00000, :   0%|          | 11/400000 [00:04<34:47:22,  3.19it/s][Train Step] 11/400000: loss_simple: 5.65046, loss_vlb: 5.91127, total_loss: 53287.61719, lr: 0.00000, :   0%|          | 12/400000 [00:05<34:42:13,  3.20it/s][Train Step] 12/400000: loss_simple: 4.82540, loss_vlb: 7.07763, total_loss: 53456.36328, lr: 0.00000, :   0%|          | 13/400000 [00:05<34:40:51,  3.20it/s][Train Step] 13/400000: loss_simple: 5.09932, loss_vlb: 6.06631, total_loss: 51755.41406, lr: 0.00000, :   0%|          | 14/400000 [00:05<34:18:56,  3.24it/s][Train Step] 14/400000: loss_simple: 4.49145, loss_vlb: 7.72825, total_loss: 56994.10547, lr: 0.00000, :   0%|          | 15/400000 [00:05<34:14:38,  3.24it/s][Train Step] 15/400000: loss_simple: 4.95249, loss_vlb: 6.92412, total_loss: 53804.19531, lr: 0.00000, :   0%|          | 16/400000 [00:06<33:49:44,  3.28it/s][Train Step] 16/400000: loss_simple: 4.51565, loss_vlb: 6.28137, total_loss: 50076.40527, lr: 0.00000, :   0%|          | 17/400000 [00:06<34:22:34,  3.23it/s]Traceback (most recent call last):
+  File "/local/data1/jakli758/venv_cycleDiff/bin/accelerate", line 6, in <module>
+    sys.exit(main())
+  File "/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 47, in main
+    args.func(args)
+  File "/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/accelerate/commands/launch.py", line 1017, in launch_command
+    simple_launcher(args)
+  File "/local/data1/jakli758/venv_cycleDiff/lib/python3.10/site-packages/accelerate/commands/launch.py", line 637, in simple_launcher
+    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
+subprocess.CalledProcessError: Command '['/local/data1/jakli758/venv_cycleDiff/bin/python3.10', 'train_uncond_ldm.py', '--cfg', './configs/nff2aff/aff_ddm_128x128.yaml']' died with <Signals.SIGTERM: 15>.

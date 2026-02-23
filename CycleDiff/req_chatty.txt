@@ -1,0 +1,36 @@
+# PyTorch & CUDA for RTX 5090
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.7.1 
+torchvision
+
+tensorboard
+ema-pytorch
+scikit-learn
+thop
+timm
+fvcore
+albumentations
+ninja
+imageio
+matplotlib
+transformers
+protobuf
+kornia
+webdataset
+
+# Lightning & accelerator stack
+pytorch-lightning==2.1.1
+# lightning-fabric==1.10.2
+accelerate==0.25.0
+
+# CycleDiff / VAE dependencies
+taming-transformers==0.0.1
+lpips==0.1.4
+einops==0.6.1
+omegaconf
+tqdm==4.66.0
+
+# Optional utilities
+numpy==1.26.0
+# scipy==1.12.1
+Pillow==10.0.0
