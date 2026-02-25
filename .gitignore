@@ -1,3 +1,7 @@
+**/run_*.txt
+**/run_*.sh
+**/run.sh
+
 # training data
 data/*
 berzelius_code/data/*
