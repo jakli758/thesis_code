@@ -33,52 +33,76 @@
 \chapter{Theory}
 \label{cha:theory}
 
-The main purpose of this chapter is to make it obvious for
-the reader that the report authors have made an effort to read
-up on related research and other information of relevance for
-the research questions. It is a question of trust. Can I as a
-reader rely on what the authors are saying? If it is obvious
-that the authors know the topic area well and clearly present
-their lessons learned, it raises the perceived quality of the
-entire report.
+Applications of AI led to improvements in different areas in healthcare \todo{enter examples}. The quality of these solutions depends on the data 
+that they are trained on. For most models it has to have a high volume and quality. Due to different issues, such datasets are seldom available: 
+privacy issues and limited sharing between hospitals and research institutions make it hard to gather medical data in the first place. Then, 
+annotating the data is expensive, as trained medical personal is required to assure a high quality of labels \cite{ibrahim_generative_2025}.
 
-After having read the theory chapter it shall be obvious for
-the reader that the research questions are both well
-formulated and relevant.
+An approach to create bigger and high quality datasets is to use generative models to create synthetic data that is highly similar to real data\todo{include related work that showed this}.    
 
-The chapter must contain theory of use for the intended
-study, both in terms of technique and method. If a final thesis
-project is about the development of a new search engine for
-a certain application domain, the theory must bring up related
-work on search algorithms and related techniques, but also
-methods for evaluating search engines, including
-performance measures such as precision, accuracy and
-recall.
+This chapter explains the foundations of generative models and different architectures. It also covers the theory behind image classification models
+that are used to evaluate the capability to use the synthetic data to augment real data for a downstream task. 
 
-The chapter shall be structured thematically, not per author.
-A good approach to making a review of scientific literature
-is to use \emph{Google Scholar} (which also has the useful function
-\emph{Cite}). By iterating between searching for articles and reading
-abstracts to find new terms to guide further searches, it is
-fairly straight forward to locate good and relevant
-information, such as .
+\section{Generative Models}
 
-Having found a relevant article one can use the function for
-viewing other articles that have cited this particular article,
-and also go through the article’s own reference list. Among
-these articles on can often find other interesting articles and
-thus proceed further.
+The general goal of generative models is to approximate an unknown distribution $p_{data}(\boldsymbol{x})$ of the training data $\boldsymbol{x}$ 
+with a learned distribution $p_{model}(\boldsymbol{x})$ \cite{goodfellow_generative_2020}. $p_{model}$ can then be used to draw new samples, that 
+could also come from $p_{data}$. There are different ways to train a model to learn this distribution. The most popular approaches are Generative 
+Adversarial Networks (GANs) and Diffusion Models (DMs).
 
-It can also be a good idea to consider which sources seem
-most relevant for the problem area at hand. Are there any
-special conference or journal that often occurs one can search
-in more detail in lists of published articles from these venues
-in particular. One can also search for the web sites of
-important authors and investigate what they have published
-in general.
+Different types of input can be given to the models to create a synthetic image. The basic case is to use noise as a starting point. The noise 
+vector $\boldsymbol{z}$ follows a distribution $p(\boldsymbol{z})$, usually a high-dimensional Gaussian. These models are called noise-to-image 
+models. Image-to-image models take, as the name indicates, another image as input. It is used to translate between the domain of the input image 
+and the output image and finds application in e.g. image inpainting, image colorization or to increase the resolution of an image. Popular are also 
+text-to-image models that can create images from a text prompt.
 
-This chapter is called either \emph{Theory, Related Work}, or
-\emph{Related Research}. Check with your supervisor.
+
+noise-to-image, image-to-image, text-to-image; medical context
+
+\subsection{Generative Adversarial Networks}
+
+For a long time, GANs dominated the field of synthetic image generation. They were introduced by Goodfellow et al. \cite{goodfellow_generative_2020}
+in 2014 and are the foundation for many adjustments and improvements until today. 
+
+The basic idea is to have two adversarial networks that try to outperform each other. On the one side stands the generator 
+$G(\boldsymbol{z}; \boldsymbol{\Theta}^{G})$. $z$ is the input noise vector and the generator tries to learn how transform it into a realistic image. 
+$\boldsymbol{\Theta}^{G}$ is a set of parameters that are learned by the generator to improve its 
+ability to fool its counter part, which is the discriminator $D(\boldsymbol{z}; \boldsymbol{\Theta}^{G})$. $\boldsymbol{\Theta}^{D}$. 
+The discriminator tries to classify input correctly as real or synthetic images. It also has a set of parameters $\boldsymbol{\Theta}^{D}$ that are 
+learned during the training process.
+
+An adversarial loss function is defined (see formula \ref{eq:adv_loss}), that the generator tries to minimize and the discriminator tries to maximize. 
+
+\begin{equation}
+    \min_G \max_D 
+    [
+    \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)] +
+    \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]
+    ]
+    \label{eq:adv_loss}
+\end{equation}
+
+
+
+\subsection{Diffusion Models}
+
+from first idea to CycleDiff
+
+\subsection{Metrics}
+
+FID/IS
+
+Radiometrics + statistical test
+
+
+
+\section{Image Classification}
+
+few general words about history of image classification, in general and medical context
+
+\subsection{Convolutional Neural Networks}
+
+\subsection{Metrics}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
