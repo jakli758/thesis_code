@@ -52,16 +52,30 @@ Adversarial Networks (GANs) and Diffusion Models (DMs).
 
 Different types of input can be given to the models to create a synthetic image. The basic case is to use noise as a starting point. The noise 
 vector $\boldsymbol{z}$ follows a distribution $p(\boldsymbol{z})$, usually a high-dimensional Gaussian. These models are called noise-to-image 
-models. Image-to-image models take, as the name indicates, another image as input. It is used to translate between the domain of the input image 
-and the output image and finds application in e.g. image inpainting, image colorization or to increase the resolution of an image. Popular are also 
+models. Image-to-image models take, as the name indicates, another image as input. It is used to translate from a source domain to an output 
+domain \cite{pang_image--image_2022} 
+and finds application in e.g. image inpainting, image colorization or to increase the resolution of an image. Popular are also 
 text-to-image models that can create images from a text prompt.
 
+In the case of \textbf{image-to-image translation}, we assume two unknown data distributions $p_{data}(\boldsymbol{x})$ and $p_{data}(\boldsymbol{y})$.
+The model needs to learn a function on how to translate between domain $X$ of the one distribution and domain $Y$ of the other distribution (see
+formula \ref{eq:i2i}).
 
-noise-to-image, image-to-image, text-to-image; medical context
+\begin{equation}
+    F: X \rightarrow Y \text{ such that } F(x) \sim p_{data}(y)
+    \label{eq:i2i}
+\end{equation}
+
+Ideally, the data consists of paired images, i.e. every image in domain $X$ has a corresponding image in domain $Y$. In this case, the network can 
+directly learn from the joined probability distribution. For unpaired images, the model needs to learn from the two marginal distributions, which
+is more difficult.
+
+In the following, the two most popular types of architectures are explained on a basic level and how they can be used for image-to-image translation. 
 
 \subsection{Generative Adversarial Networks}
 
-For a long time, GANs dominated the field of synthetic image generation. They were introduced by Goodfellow et al. \cite{goodfellow_generative_2020}
+For a long time \todo{sounds weird, but also kind of true}, GANs dominated the field of synthetic image generation. They were introduced by 
+Goodfellow et al. \cite{goodfellow_generative_2020}
 in 2014 and are the foundation for many adjustments and improvements until today. 
 
 The basic idea is to have two adversarial networks that try to outperform each other. On the one side stands the generator 
@@ -81,6 +95,9 @@ An adversarial loss function is defined (see formula \ref{eq:adv_loss}), that th
     ]
     \label{eq:adv_loss}
 \end{equation}
+
+In this basic case, a synthetic image is created from the noise vector $\boldsymbol{z}$ but for image-to-image translation one image is transformed 
+into an adjusted one in the target domain.
 
 
 

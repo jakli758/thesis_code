@@ -1219,7 +1219,7 @@ In this paper, a multi-domain translation model of medical images based on the k
 	author = {Ghavidel, Arman and Pazos, Pilar},
 	month = feb,
 	year = {2025},
-	keywords = {Cancer, Classification, Feature selection, Imbalanced data, Resampling},
+	keywords = {Classification, Imbalanced data, Cancer, Feature selection, Resampling},
 	pages = {270--294},
 	file = {Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\UVK76XD2\\Ghavidel und Pazos - 2025 - Machine learning (ML) techniques to predict breast cancer in imbalanced datasets a systematic revie.pdf:application/pdf},
 }
@@ -1241,4 +1241,118 @@ In this paper, a multi-domain translation model of medical images based on the k
 	keywords = {Atypical femoral fracture, Bisphosphonates, Complications, Osteoporosis, Reoperation risk},
 	pages = {951--959},
 	file = {Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\483IZXHH\\Bögl et al. - 2020 - Increased rate of reoperation in atypical femoral fractures is related to patient characteristics an.pdf:application/pdf},
+}
+
+@misc{norris_enhancing_2025,
+	title = {Enhancing fracture detection in wrist radiographs via paired synthetic data generation},
+	copyright = {© 2025, Posted by Cold Spring Harbor Laboratory. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/},
+	url = {https://www.medrxiv.org/content/10.1101/2025.09.18.25336124v1},
+	doi = {10.1101/2025.09.18.25336124},
+	abstract = {Purpose Cast artefacts in follow-up wrist radiographs reduce diagnostic image quality and complicate the assessment of fracture healing, displacement, and complications. This study evaluated whether targeted image augmentation and cast suppression can improve automated fracture detection performance, particularly when training datasets underrepresent cast images.
+Methods A previously published CycleGAN model was repurposed to generate synthetic paired datasets for Pix2Pix training. These Pix2Pix models learned image-to-image translation from synthetic cast to cast-less images. Fracture detection experiments assessed the impact of CycleGAN-based synthetic data augmentation and cast suppression across training sets with varying cast image proportions. Performance was assessed using mean average precision at intersection over union thresholds (mAP@0.5, mAP@0.5:0.95) with bootstrap resampling.
+Results Synthetic augmentation with CycleGAN significantly improved fracture detection compared to models trained without any cast images. However, models trained with limited real cast data outperformed those using synthetic augmentation. The Pix2Pix model consistently outperformed CycleGAN-based cast suppression. Cast suppression only improved fracture detection when applied to models that had never been exposed to cast images during training; when applied to models already trained on cast-containing images, suppression decreased accuracy.
+Conclusion By generating a synthetic paired dataset, we addressed a critical limitation in cast suppression research and enabled more robust and meaningful architecture comparisons. CycleGAN-based augmentation and cast suppression preprocessing improved fracture detection performance only in models that had not been exposed to casts during training, demonstrating their potential value when real cast data are unavailable. However, models trained with real cast data consistently outperformed those trained with synthetic alternatives, highlighting that real cast data remain essential for developing reliable and clinically robust fracture detection models.},
+	language = {en},
+	urldate = {2026-02-17},
+	publisher = {medRxiv},
+	author = {Norris, Stanley A. and Carrion, Daniel and Uribe, Sergio and Badawy, Mohamed K.},
+	month = sep,
+	year = {2025},
+	note = {ISSN: 3067-2007
+Pages: 2025.09.18.25336124},
+	file = {Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\BTKUUU2N\\Norris et al. - 2025 - Enhancing fracture detection in wrist radiographs via paired synthetic data generation.pdf:application/pdf},
+}
+
+@article{norris_enhancing_2025-1,
+	title = {Enhancing {Radiographic} {Diagnosis}: {CycleGAN}-{Based} {Methods} for {Reducing} {Cast} {Shadow} {Artifacts} in {Wrist} {Radiographs}},
+	volume = {38},
+	issn = {2948-2933},
+	shorttitle = {Enhancing {Radiographic} {Diagnosis}},
+	url = {https://doi.org/10.1007/s10278-024-01385-3},
+	doi = {10.1007/s10278-024-01385-3},
+	abstract = {We extend existing techniques by using generative adversarial network (GAN) models to reduce the appearance of cast shadows in radiographs across various age groups. We retrospectively collected 11,500 adult and paediatric wrist radiographs, evenly divided between those with and without casts. The test subset consisted of 750 radiographs with cast and 750 without cast. We extended the results from a previous study that employed CycleGAN by enhancing the model using a perceptual loss function and a self-attention layer. The CycleGAN model which incorporates a self-attention layer and perceptual loss function delivered a similar quantitative performance as the original model. This model was applied to images from 20 cases where the original reports recommended CT scanning or repeat radiographs without the cast, which were then evaluated by radiologists for qualitative assessment. The results demonstrated that the generated images could improve radiologists’ diagnostic confidence, in some cases leading to more decisive reports. Where available, the reports from follow-up imaging were compared with those produced by radiologists reading AI-generated images. Every report, except two, provided identical diagnoses as those associated with follow-up imaging. The ability of radiologists to perform robust reporting with downsampled AI-enhanced images is clinically meaningful and warrants further investigation. Additionally, radiologists were unable to distinguish AI-enhanced from unenhanced images. These findings suggest the cast suppression technique could be integrated as a tool to augment clinical workflows, with the potential benefits of reducing patient doses, improving operational efficiencies, reducing delays in diagnoses, and reducing the number of patient visits.},
+	language = {en},
+	number = {5},
+	urldate = {2026-02-23},
+	journal = {Journal of Imaging Informatics in Medicine},
+	author = {Norris, Stanley A. and Carrion, Daniel and Ditchfield, Michael and Gubser, Manuel and Seah, Jarrel and Badawy, Mohamed K.},
+	month = oct,
+	year = {2025},
+	keywords = {Deep learning, Artifact suppression, Cast shadow, Generative adversarial network (GAN), Wrist radiographs},
+	pages = {2729--2738},
+	file = {Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\X5J8CXJ5\\Norris et al. - 2025 - Enhancing Radiographic Diagnosis CycleGAN-Based Methods for Reducing Cast Shadow Artifacts in Wrist.pdf:application/pdf},
+}
+
+@inproceedings{pundir_synthetic_2024,
+	title = {Synthetic {Image} {Generation} for {Improved} {Detection} of {Bone} {Defects} {Using} {GAN}},
+	issn = {2473-7674},
+	url = {https://ieeexplore.ieee.org/abstract/document/10723913},
+	doi = {10.1109/ICCCNT61001.2024.10723913},
+	abstract = {Automated Fractures of Bone Detection in orthopedic radiographs is crucial in assisting doctors to correctly and properly diagnose fractures. For this assignment, we investigate a Generative Adversarial Networks (GAN)-based solution that employs sophisticated artificial intelligence models capable of producing realistic photos while detecting anomalies. It display efficiency of GAN-based models in boosting fracture detection performance by applying multiple assessment criteria, such precision, accuracy, and F1-score, and detection speed, through thorough testing and evaluation of musculoskeletal radiograph datasets (MURA). GANs function by retraining networks of generators to produce artificial pictures and a network of discriminators. This antagonistic process encourages the formation of realistic radiography with fractures, enabling precise and automatic detection. Our proposed approach makes use of GANs’ capability to produce artificial pictures with cracks and recognize, abnormal patterns, thereby improving fracture diagnosis These findings highlight the prospect of introducing GANs into automated evaluation, which might assist with develop fracture detection systems in orthopaedics. Our findings advance fracture detection approaches, paving the way for improved and more accurate orthopaedic diagnostic tools.},
+	urldate = {2026-02-23},
+	booktitle = {2024 15th {International} {Conference} on {Computing} {Communication} and {Networking} {Technologies} ({ICCCNT})},
+	author = {Pundir, Brajesh Singh and Kumar, Rakesh and Gupta, Meenu and Obaid, Ahmed J.},
+	month = jun,
+	year = {2024},
+	note = {ISSN: 2473-7674},
+	keywords = {Generative adversarial networks, Image synthesis, Medical services, Generators, Diagnostic radiography, Accuracy, Bone detection, Bones, Deep Learning, Diagnosis, GAN, Musculoskeletal system, Orthopedics, Pattern recognition, Testing, X-ray image},
+	pages = {1--5},
+	file = {Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\VZ3YLEZE\\Pundir et al. - 2024 - Synthetic Image Generation for Improved Detection of Bone Defects Using GAN.pdf:application/pdf},
+}
+
+@article{hage_chehade_advancing_2025,
+	title = {Advancing chest {X}-ray diagnostics: {A} novel {CycleGAN}-based preprocessing approach for enhanced lung disease classification in {ChestX}-{Ray14}},
+	volume = {259},
+	issn = {0169-2607},
+	shorttitle = {Advancing chest {X}-ray diagnostics},
+	url = {https://www.sciencedirect.com/science/article/pii/S016926072400511X},
+	doi = {10.1016/j.cmpb.2024.108518},
+	abstract = {Background and objective:
+Chest radiography is a medical imaging technique widely used to diagnose thoracic diseases. However, X-ray images may contain artifacts such as irrelevant objects, medical devices, wires and electrodes that can introduce unnecessary noise, making difficult the distinction of relevant anatomical structures, and hindering accurate diagnoses. We aim in this study to address the issue of these artifacts in order to improve lung diseases classification results.
+Methods:
+In this paper we present a novel preprocessing approach which begins by detecting images that contain artifacts and then we reduce the artifacts’ noise effect by generating sharper images using a CycleGAN model. The DenseNet-121 model, used for the classification, incorporates channel and spatial attention mechanisms to specifically focus on relevant parts of the image. Additional information contained in the dataset, namely clinical characteristics, were also integrated into the model.
+Results:
+We evaluated the performance of the classification model before and after applying our proposed artifact preprocessing approach. These results clearly demonstrate that our preprocessing approach significantly improves the model’s AUC by 5.91\% for pneumonia and 6.44\% for consolidation classification, outperforming previous studies for the 14 diseases in the ChestX-Ray14 dataset.
+Conclusion:
+This research highlights the importance of considering the presence of artifacts when diagnosing lung diseases from radiographic images. By eliminating unwanted noise, our approach enables models to focus on relevant diagnostic features, thereby improving their performance. The results demonstrated that our approach is promising, highlighting its potential for broader applications in lung disease classification.},
+	urldate = {2026-02-23},
+	journal = {Computer Methods and Programs in Biomedicine},
+	author = {Hage Chehade, Aya and Abdallah, Nassib and Marion, Jean-Marie and Hatt, Mathieu and Oueidat, Mohamad and Chauvet, Pierre},
+	month = feb,
+	year = {2025},
+	keywords = {Deep learning, Image classification, ChestX-Ray14 dataset, Convolutional Block Attention Module (CBAM), CycleGAN, Image preprocessing, K-means clustering},
+	pages = {108518},
+	file = {ScienceDirect Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\7FW9DLFI\\Hage Chehade et al. - 2025 - Advancing chest X-ray diagnostics A novel CycleGAN-based preprocessing approach for enhanced lung d.pdf:application/pdf;ScienceDirect Snapshot:C\:\\Users\\jakob\\Zotero\\storage\\X6GN2F24\\S016926072400511X.html:text/html},
+}
+
+@misc{kim_unpaired_2024,
+	title = {Unpaired {Image}-to-{Image} {Translation} via {Neural} {Schrödinger} {Bridge}},
+	url = {http://arxiv.org/abs/2305.15086},
+	doi = {10.48550/arXiv.2305.15086},
+	abstract = {Diffusion models are a powerful class of generative models which simulate stochastic differential equations (SDEs) to generate data from noise. While diffusion models have achieved remarkable progress, they have limitations in unpaired image-to-image (I2I) translation tasks due to the Gaussian prior assumption. Schrödinger Bridge (SB), which learns an SDE to translate between two arbitrary distributions, have risen as an attractive solution to this problem. Yet, to our best knowledge, none of SB models so far have been successful at unpaired translation between high-resolution images. In this work, we propose Unpaired Neural Schrödinger Bridge (UNSB), which expresses the SB problem as a sequence of adversarial learning problems. This allows us to incorporate advanced discriminators and regularization to learn a SB between unpaired data. We show that UNSB is scalable and successfully solves various unpaired I2I translation tasks. Code: {\textbackslash}url\{https://github.com/cyclomon/UNSB\}},
+	urldate = {2026-02-25},
+	publisher = {arXiv},
+	author = {Kim, Beomsu and Kwon, Gihyun and Kim, Kwanyoung and Ye, Jong Chul},
+	month = mar,
+	year = {2024},
+	note = {arXiv:2305.15086 [cs]},
+	keywords = {Computer Science - Artificial Intelligence, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning, Statistics - Machine Learning},
+	file = {Preprint PDF:C\:\\Users\\jakob\\Zotero\\storage\\BAQ958PZ\\Kim et al. - 2024 - Unpaired Image-to-Image Translation via Neural Schrödinger Bridge.pdf:application/pdf;Snapshot:C\:\\Users\\jakob\\Zotero\\storage\\WA6KD7KT\\2305.html:text/html},
+}
+
+@article{pang_image--image_2022,
+	title = {Image-to-{Image} {Translation}: {Methods} and {Applications}},
+	volume = {24},
+	issn = {1941-0077},
+	shorttitle = {Image-to-{Image} {Translation}},
+	url = {https://ieeexplore.ieee.org/abstract/document/9528943},
+	doi = {10.1109/TMM.2021.3109419},
+	abstract = {Image-to-image translation (I2I) aims to transfer images from a source domain to a target domain while preserving the content representations. I2I has drawn increasing attention and made tremendous progress in recent years because of its wide range of applications in many computer vision and image processing problems, such as image synthesis, segmentation, style transfer, restoration, and pose estimation. In this paper, we provide an overview of the I2I works developed in recent years. We will analyze the key techniques of the existing I2I works and clarify the main progress the community has made. Additionally, we will elaborate on the effect of I2I on the research and industry community and point out remaining challenges in related fields.},
+	urldate = {2026-03-05},
+	journal = {IEEE Transactions on Multimedia},
+	author = {Pang, Yingxue and Lin, Jianxin and Qin, Tao and Chen, Zhibo},
+	year = {2022},
+	keywords = {Analytical models, Data models, few-shot methods, Generative adversarial networks, Generators, Image-to-image translation, Measurement, multi-domain I2I, PSNR, semi-supervised methods, supervised methods, Task analysis, two-domain I2I, unsupersived methods},
+	pages = {3859--3881},
+	file = {Full Text PDF:C\:\\Users\\jakob\\Zotero\\storage\\PMI6SL7F\\Pang et al. - 2022 - Image-to-Image Translation Methods and Applications.pdf:application/pdf},
 }
