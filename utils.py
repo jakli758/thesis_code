@@ -10,6 +10,10 @@ from collections import defaultdict, Counter
 from sklearn.model_selection import train_test_split
 from PIL import Image
 import matplotlib.pyplot as plt
+from pathlib import Path
+import pandas as pd
+
+
 
 def plot_img(path, is_rgb=True):
     if is_rgb:
@@ -1137,4 +1141,355 @@ def norm_dataset_level(input_folder, output_folder):
     plt.xlabel("Pixel intensity (0..255)")
     plt.ylabel("Normalized frequency")
     plt.xlim([0, 255])
+    plt.show()
+
+
+
+
+
+def normalize_domain_level(input_folder, output_folder):
+    """
+    Computes global mean and std over all RGB images in input_folder
+    and normalizes them using:
+
+        normalized_image = (image - global_mean) / global_std + 128
+
+    The normalized images are saved to output_folder using plt.imsave.
+    """
+
+    os.makedirs(output_folder, exist_ok=True)
+
+    image_files = [
+        f for f in os.listdir(input_folder)
+        if f.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff"))
+    ]
+
+    if len(image_files) == 0:
+        raise ValueError("No images found in input folder.")
+
+    # -------- First pass: compute global mean and std --------
+    pixel_sum = 0.0
+    pixel_sq_sum = 0.0
+    pixel_count = 0
+
+    for fname in tqdm(image_files):
+        path = os.path.join(input_folder, fname)
+
+        img = cv2.imread(path, cv2.IMREAD_COLOR)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = img.astype(np.float32)
+
+        pixel_sum += img.sum()
+        pixel_sq_sum += (img ** 2).sum()
+        pixel_count += img.size
+
+    global_mean = pixel_sum / pixel_count
+    global_std = np.sqrt(pixel_sq_sum / pixel_count - global_mean ** 2)
+
+    print(f"Global mean: {global_mean}")
+    print(f"Global std: {global_std}")
+
+    # -------- Second pass: normalize and save --------
+    for fname in tqdm(image_files):
+        path = os.path.join(input_folder, fname)
+
+        img = cv2.imread(path, cv2.IMREAD_COLOR)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = img.astype(np.float32)
+
+        normalized = (img - global_mean) / global_std + 128
+        normalized = np.clip(normalized, 0, 255).astype(np.uint8)
+
+        out_path = os.path.join(output_folder, fname)
+        plt.imsave(out_path, normalized)
+
+    print("Normalization finished.")
+
+
+
+
+
+def count_images_per_hospital(directory):
+    """
+    Reads filenames in a directory and counts images per hospital,
+    split by AFF and NFF.
+
+    Returns:
+        dict: {hospital_id: {'AFF': count, 'NFF': count}}
+    """
+
+    hospital_counts = defaultdict(lambda: {'AFF': 0, 'NFF': 0})
+
+    for filename in os.listdir(directory):
+        if not filename.endswith(".png"):
+            continue
+
+        # Extract hospital number
+        hospital_match = re.search(r"hospital_(\d+)", filename)
+
+        # Extract label
+        label_match = re.search(r"_(AFF|NFF)_", filename)
+
+        if hospital_match and label_match:
+            hospital = int(hospital_match.group(1))
+            label = label_match.group(1)
+
+            hospital_counts[hospital][label] += 1
+
+    return dict(hospital_counts)
+
+
+def plot_hospital_distribution(hospital_dict):
+
+    hospitals = sorted(hospital_dict.keys())
+    aff_counts = [hospital_dict[h]['AFF'] for h in hospitals]
+    nff_counts = [hospital_dict[h]['NFF'] for h in hospitals]
+
+    totals = [a + b for a, b in zip(aff_counts, nff_counts)]
+
+    x = np.arange(len(hospitals))
+
+    plt.figure(figsize=(10,5))
+
+    plt.bar(x, aff_counts, label="AFF")
+    plt.bar(x, nff_counts, bottom=aff_counts, label="NFF")
+
+    # Write totals above bars
+    for i, total in enumerate(totals):
+        plt.text(
+            x[i],
+            total + max(totals)*0.01,  # small offset
+            str(total),
+            ha='center',
+            va='bottom',
+            fontsize=9
+        )
+
+    plt.xlabel("Hospital ID")
+    plt.ylabel("Number of Images")
+    plt.title("Images per Hospital")
+
+    max_labels = 20
+    if len(hospitals) > max_labels:
+        step = len(hospitals) // max_labels + 1
+        ticks = x[::step]
+        labels = [hospitals[i] for i in range(0, len(hospitals), step)]
+    else:
+        ticks = x
+        labels = hospitals
+
+    plt.xticks(ticks, labels, rotation=45, ha="right")
+
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+
+
+def plot_folder_histograms(
+    folder_path: str,
+    pattern: str = "*",
+    grayscale: bool = True,
+    bins: int = 256,
+    density: bool = True,
+    alpha: float = 0.25,
+    figsize: tuple = (12, 5),
+) -> None:
+    """
+    Plot two histograms for images in a folder:
+    1) A single histogram over all pixels from all images combined
+    2) Overlapping histograms, one per image
+
+    Parameters
+    ----------
+    folder_path : str
+        Path to the folder containing images.
+    pattern : str
+        Glob pattern to filter files, e.g. "*.png" or "*.jpg".
+        Default "*" tries all files and filters valid images internally.
+    grayscale : bool
+        If True, convert images to grayscale before computing histograms.
+        If False, uses all RGB values flattened together.
+    bins : int
+        Number of histogram bins.
+    density : bool
+        If True, normalize histograms to compare distributions.
+    alpha : float
+        Transparency for per-image overlapping histograms.
+    figsize : tuple
+        Figure size for the 2-panel plot.
+    """
+    folder = Path(folder_path)
+    if not folder.exists() or not folder.is_dir():
+        raise ValueError(f"Invalid folder path: {folder_path}")
+
+    image_extensions = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff", ".webp"}
+    files = [p for p in folder.glob(pattern) if p.suffix.lower() in image_extensions]
+
+    if not files:
+        raise ValueError(f"No supported image files found in: {folder}")
+
+    all_pixels = []
+    per_image_pixels = []
+    labels = []
+
+    for file in sorted(files):
+        try:
+            img = Image.open(file)
+            img = img.convert("L" if grayscale else "RGB")
+            arr = np.asarray(img).ravel()
+
+            all_pixels.append(arr)
+            per_image_pixels.append(arr)
+            labels.append(file.name)
+        except Exception as e:
+            print(f"Skipping {file.name}: {e}")
+
+    if not per_image_pixels:
+        raise ValueError("No readable images found.")
+
+    all_pixels = np.concatenate(all_pixels)
+
+    value_range = (0, 255)
+
+    fig, axes = plt.subplots(1, 2, figsize=figsize)
+
+    # Histogram over all images combined
+    axes[0].hist(
+        all_pixels,
+        bins=bins,
+        range=value_range,
+        density=density,
+        alpha=0.9,
+    )
+    axes[0].set_title("Histogram of all images combined")
+    axes[0].set_xlabel("Pixel value")
+    axes[0].set_ylabel("Density" if density else "Count")
+
+    # Overlapping histogram per image
+    for arr, label in zip(per_image_pixels, labels):
+        axes[1].hist(
+            arr,
+            bins=bins,
+            range=value_range,
+            density=density,
+            alpha=alpha,
+            label=label,
+        )
+
+    axes[1].set_title("Overlapping histogram per image")
+    axes[1].set_xlabel("Pixel value")
+    axes[1].set_ylabel("Density" if density else "Count")
+
+    # Only show legend if there aren't too many images
+    if len(labels) <= 12:
+        axes[1].legend(fontsize=8)
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+
+
+def parse_cyclegan_losses(log_file):
+    """
+    Parse a CycleGAN training log file and extract loss values.
+
+    Parameters
+    ----------
+    log_file : str or Path
+        Path to the training log text file.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with columns:
+        ['epoch', 'iters', 'log_index', 'D_A', 'G_A', 'cycle_A', 'idt_A',
+         'D_B', 'G_B', 'cycle_B', 'idt_B']
+    """
+    log_file = Path(log_file)
+
+    # Match lines like:
+    # [Rank 0] (epoch: 1, iters: 200, time: 0.090, data: 0.108) , D_A: 0.394, ...
+    pattern = re.compile(
+        r"\(epoch:\s*(?P<epoch>\d+),\s*iters:\s*(?P<iters>\d+),.*?\)\s*,\s*"
+        r"D_A:\s*(?P<D_A>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"G_A:\s*(?P<G_A>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"cycle_A:\s*(?P<cycle_A>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"idt_A:\s*(?P<idt_A>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"D_B:\s*(?P<D_B>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"G_B:\s*(?P<G_B>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"cycle_B:\s*(?P<cycle_B>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?),\s*"
+        r"idt_B:\s*(?P<idt_B>-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?)"
+    )
+
+    LOSS_NAMES = ["D_A", "G_A", "cycle_A", "idt_A", "D_B", "G_B", "cycle_B", "idt_B"]
+
+    rows = []
+    with log_file.open("r", encoding="utf-8") as f:
+        for line in f:
+            match = pattern.search(line)
+            if match:
+                row = {
+                    "epoch": int(match.group("epoch")),
+                    "iters": int(match.group("iters")),
+                }
+                for loss in LOSS_NAMES:
+                    row[loss] = float(match.group(loss))
+                rows.append(row)
+
+    if not rows:
+        raise ValueError(f"No loss entries found in file: {log_file}")
+
+    df = pd.DataFrame(rows)
+    df["log_index"] = range(1, len(df) + 1)
+    return df
+
+
+def plot_cyclegan_losses(log_file, smooth_window=None, figsize=(16, 8)):
+    """
+    Parse a CycleGAN log file and plot the losses.
+
+    Parameters
+    ----------
+    log_file : str or Path
+        Path to the training log text file.
+    smooth_window : int or None, optional
+        Rolling average window size for smoothing. Example: 5.
+        If None, raw curves are plotted.
+    figsize : tuple, optional
+        Figure size.
+
+    Returns
+    -------
+    pd.DataFrame
+        Parsed loss DataFrame.
+    """
+    df = parse_cyclegan_losses(log_file)
+    LOSS_NAMES = ["D_A", "G_A", "cycle_A", "idt_A", "D_B", "G_B", "cycle_B", "idt_B"]
+
+    plot_df = df.copy()
+    if smooth_window is not None and smooth_window > 1:
+        for loss in LOSS_NAMES:
+            plot_df[loss] = plot_df[loss].rolling(window=smooth_window, min_periods=1).mean()
+
+    fig, axes = plt.subplots(2, 4, figsize=figsize, sharex=True)
+    axes = axes.flatten()
+
+    for ax, loss in zip(axes, LOSS_NAMES):
+        ax.plot(df["log_index"], df[loss], label="raw")
+        if smooth_window is not None and smooth_window > 1:
+            ax.plot(plot_df["log_index"], plot_df[loss], label=f"smoothed ({smooth_window})")
+            ax.legend()
+        ax.set_title(loss)
+        ax.set_xlabel("Log entry")
+        ax.set_ylabel("Loss")
+        ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
     plt.show()

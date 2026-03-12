@@ -23,6 +23,7 @@ IMG_EXTENSIONS = [
     ".TIF",
     ".tiff",
     ".TIFF",
+    ".npy"
 ]
 
 

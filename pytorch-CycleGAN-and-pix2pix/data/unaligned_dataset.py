@@ -1,6 +1,7 @@
 import os
 from data.base_dataset import BaseDataset, get_transform
 from data.image_folder import make_dataset
+import numpy as np
 from PIL import Image
 import random
 
@@ -54,8 +55,24 @@ class UnalignedDataset(BaseDataset):
         else:  # randomize the index for domain B to avoid fixed pairs.
             index_B = random.randint(0, self.B_size - 1)
         B_path = self.B_paths[index_B]
-        A_img = Image.open(A_path).convert("RGB")
-        B_img = Image.open(B_path).convert("RGB")
+        if self.opt.data_format == 'image':
+            # normal case
+            A_img = Image.open(A_path).convert('RGB')
+            B_img = Image.open(B_path).convert('RGB')
+
+        elif self.opt.data_format == 'npy':
+            # custom case
+            A_np = np.load(A_path)
+            B_np = np.load(B_path)
+
+            # ensure H,W,3
+            if A_np.ndim == 2:
+                A_np = np.stack([A_np]*3, axis=-1)
+            if B_np.ndim == 2:
+                B_np = np.stack([B_np]*3, axis=-1)
+
+            A_img = Image.fromarray(A_np.astype(np.uint8))
+            B_img = Image.fromarray(B_np.astype(np.uint8))
         # apply image transformation
         A = self.transform_A(A_img)
         B = self.transform_B(B_img)

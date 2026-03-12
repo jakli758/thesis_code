@@ -56,6 +56,9 @@ class BaseOptions:
         # wandb parameters
         parser.add_argument("--use_wandb", action="store_true", help="if specified, then init wandb logging")
         parser.add_argument("--wandb_project_name", type=str, default="CycleGAN-and-pix2pix", help="specify wandb project name")
+
+        # custom parameters
+        parser.add_argument('--data_format', type=str, default='image', choices=['image', 'npy'], help='dataset file format: image (png/jpg) or npy')
         self.initialized = True
         return parser
 
