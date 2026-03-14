@@ -41,21 +41,43 @@ def pad_img(img):
     """
     pass
 
-def preprocess(path='/local/data1/jakli758/threeclasses/', new_shape=(128,128)):
+def preprocess(path='/local/data1/jakli758/threeclasses/', new_path="/local/data1/jakli758/threeclasses/", new_shape=(128,128)):
 
     folders = ['accepted', 'rejected']
     
     for folder in folders:
+        
         path_current = f'{path}{folder}'
-        path_new = f'{path}{folder}_preprocessed_{new_shape[0]}'
+        path_new = f"{new_path}{folder}"
+        os.makedirs(path_new, exist_ok=True)
         for file in tqdm(os.listdir(path_current)):
             
+            img = cv2.imread(f'{path_current}/{file}', -1)
+            img_8bit = ((img - img.min()) / (img.max() - img.min()) * 255).astype(np.uint8)
 
-            # imread automatically converts img to 8-bit, if CV.IMREAD_ANYDEPTH is not set
-            img = cv2.imread(f'{path_current}/{file}', 0)
-            img_preprocessed = resize_with_pad(image=img,new_shape=new_shape, padding_color=0)
-            
-            cv2.imwrite(f'{path_new}/{file}', img_preprocessed)
+            # check if image has white background. If so, invert image
+            if has_bright_background(img_8bit):
+                img_8bit = 255 - img_8bit
+
+            img_preprocessed = resize_with_pad(img_8bit,new_shape=new_shape, padding_color=(0,0,0))
+            plt.imsave(os.path.join(path_new,file), img_preprocessed, cmap='gray')
+
+def has_bright_background(img, border_frac=0.08, threshold=127):
+    h, w = img.shape
+    bh = max(1, int(h * border_frac))
+    bw = max(1, int(w * border_frac))
+
+    top = img[:bh, :]
+    bottom = img[-bh:, :]
+    left = img[:, :bw]
+    right = img[:, -bw:]
+
+    border_pixels = np.concatenate([
+        top.ravel(), bottom.ravel(), left.ravel(), right.ravel()
+    ])
+
+    return np.median(border_pixels) > threshold
+
 
     
 # https://gist.github.com/IdeaKing/11cf5e146d23c5bb219ba3508cca89ec
@@ -678,7 +700,7 @@ def plot_intensity_histogram(folder_path):
     # ---- LOAD IMAGES AND COMPUTE HISTOGRAMS ----
     all_histograms = []
     combined_histogram = np.zeros(bins)
-
+    
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
 
@@ -1269,7 +1291,7 @@ def plot_hospital_distribution(hospital_dict):
     plt.ylabel("Number of Images")
     plt.title("Images per Hospital")
 
-    max_labels = 20
+    max_labels = 100
     if len(hospitals) > max_labels:
         step = len(hospitals) // max_labels + 1
         ticks = x[::step]
@@ -1278,7 +1300,7 @@ def plot_hospital_distribution(hospital_dict):
         ticks = x
         labels = hospitals
 
-    plt.xticks(ticks, labels, rotation=45, ha="right")
+    plt.xticks(ticks, labels, rotation=90, ha="right")
 
     plt.legend()
     plt.tight_layout()
