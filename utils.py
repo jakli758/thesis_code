@@ -305,9 +305,9 @@ def datasplit_dm(path='/local/data1/jakli758/', img_size=128):
 def datasplit_gan(path='/local/data1/jakli758/', img_size=128):
     print("Start datasplit GAN")
     PATTERN = re.compile(r'patient_(\d*)_([A-Z]*)')
-    SOURCE_ROOT_FRAC = f'{path}threeclasses/accepted_preprocessed_{img_size}_rgb/' 
-    SOURCE_ROOT_HEL = f'{path}threeclasses/rejected_preprocessed_{img_size}_rgb/' 
-    OUTPUT_ROOT = f'{path}dataset_new/gan/{img_size}/'
+    SOURCE_ROOT_FRAC = f'{path}dataset_uint8_inverted/accepted/' 
+    SOURCE_ROOT_HEL = f'{path}dataset_uint8_inverted/rejected/' 
+    OUTPUT_ROOT = f'{path}dataset_uint8_inverted/split_gan/{img_size}/'
     os.makedirs(OUTPUT_ROOT, exist_ok=True)
     
     # keys: patient_nr; values: lists containing tuples (fracture_type, file_name)
